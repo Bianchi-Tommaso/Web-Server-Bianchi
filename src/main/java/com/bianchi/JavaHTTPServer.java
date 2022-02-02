@@ -174,6 +174,32 @@ public class JavaHTTPServer implements Runnable
 				File file = new File(WEB_ROOT, fileRequested);
 				int fileLength = (int) file.length();
 				String content = getContentType(fileRequested);
+
+				if(fileRequested.endsWith(".json"))
+				{
+					XMLDeserializza xml = new XMLDeserializza();    //Oggetto XML Deserializza
+
+					root value; //Valore root
+					
+					value = xml.DeserializzaXML(); //Richiamo Del Metodo      
+
+					JSONSerializza json = new JSONSerializza();     //Oggetto JSON Serializza
+
+					json.SerializzaJSON(value);     //Richiamo Del Metodo
+				}
+
+				if(fileRequested.endsWith(".xml"))
+				{
+					JSONDeserializza json = new JSONDeserializza();
+
+					roott value;
+					
+					value = json.DeserializzaJSON();
+
+					XMLSerializza xml = new XMLSerializza();
+
+					xml.SerializzaXML(value);
+				}
 				
 				GetHead(file, fileLength, content);
 				
@@ -270,6 +296,14 @@ public class JavaHTTPServer implements Runnable
 		else if(fileRequested.endsWith(".gif"))
 		{
 			return "image/gif";
+		}
+		else if(fileRequested.endsWith(".json"))
+		{
+			return "application/json";
+		}
+		else if(fileRequested.endsWith(".xml"))
+		{
+			return "text/xml";
 		}
 		else
 		{
