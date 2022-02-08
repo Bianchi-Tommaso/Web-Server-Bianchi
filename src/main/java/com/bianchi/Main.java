@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class Main 
 {
-    private static final int PORT = 8082;
+    private static final int PORT = 8080;
     static final boolean verbose = true;
 
     public static void main(String[] args) 

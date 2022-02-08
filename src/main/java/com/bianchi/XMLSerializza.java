@@ -8,7 +8,7 @@ import com.fasterxml.jackson.dataformat.xml.XmlMapper;
 
 public class XMLSerializza 
 {
-    public void SerializzaXML(roott value) throws IOException
+    public String SerializzaXML(roott value) throws IOException
     {
         XmlMapper xmlMapper = new XmlMapper();
 
@@ -20,6 +20,9 @@ public class XMLSerializza
         
         System.out.println("Serializzazione: " + xml);
 
+        return xml;
+
+        /*
         File XML = new File("src/main/resources/puntiVendita.xml");
 
         FileWriter scrivi = new FileWriter(XML);
@@ -40,6 +43,7 @@ public class XMLSerializza
 
             scrivi.close();
         }
+        */
     }
     
 }

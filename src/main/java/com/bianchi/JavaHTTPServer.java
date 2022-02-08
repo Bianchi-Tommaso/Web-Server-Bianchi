@@ -177,6 +177,8 @@ public class JavaHTTPServer implements Runnable
 
 				if(fileRequested.endsWith(".json"))
 				{
+					String s = "";
+
 					XMLDeserializza xml = new XMLDeserializza();    //Oggetto XML Deserializza
 
 					root value; //Valore root
@@ -185,11 +187,29 @@ public class JavaHTTPServer implements Runnable
 
 					JSONSerializza json = new JSONSerializza();     //Oggetto JSON Serializza
 
-					json.SerializzaJSON(value);     //Richiamo Del Metodo
-				}
+					s = json.SerializzaJSON(value);     //Richiamo Del Metodo
 
-				if(fileRequested.endsWith(".xml"))
+					if (method.equals("GET")) 
+					{ // GET method so we return content
+						byte[] fileData = s.getBytes();
+						
+						// send HTTP Headers
+						out.println("HTTP/1.1 200 OK");
+						out.println("Server: Java HTTP Server from SSaurel : 1.0");
+						out.println("Date: " + new Date());
+						out.println("Content-type: " + content);
+						out.println("Content-length: " + s.length());
+						out.println(); // blank line between headers and content, very important !
+						out.flush(); // flush character output stream buffer
+						
+						dataOut.write(fileData, 0, s.length());
+						dataOut.flush();
+					}
+				}
+				else if(fileRequested.endsWith(".xml"))
 				{
+					String s = "";
+
 					JSONDeserializza json = new JSONDeserializza();
 
 					roott value;
@@ -198,10 +218,29 @@ public class JavaHTTPServer implements Runnable
 
 					XMLSerializza xml = new XMLSerializza();
 
-					xml.SerializzaXML(value);
+					s = xml.SerializzaXML(value);
+					
+					if (method.equals("GET")) 
+					{ // GET method so we return content
+						byte[] fileData = s.getBytes();
+						
+						// send HTTP Headers
+						out.println("HTTP/1.1 200 OK");
+						out.println("Server: Java HTTP Server from SSaurel : 1.0");
+						out.println("Date: " + new Date());
+						out.println("Content-type: " + content);
+						out.println("Content-length: " + s.length());
+						out.println(); // blank line between headers and content, very important !
+						out.flush(); // flush character output stream buffer
+						
+						dataOut.write(fileData, 0, s.length());
+						dataOut.flush();
+					}
 				}
-				
-				GetHead(file, fileLength, content);
+				else
+				{
+					GetHead(file, fileLength, content);
+				}
 				
 				if (verbose)
 				 {
